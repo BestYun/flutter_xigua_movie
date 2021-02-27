@@ -4,7 +4,7 @@ import 'package:flutter_xigua_movie/colors/theme_colors.dart';
 
 class HomeBodyVideoInfoItem extends StatelessWidget {
   final double width;
-  HomeBodyVideoInfoItem({@required this.width});
+  HomeBodyVideoInfoItem({this.width});
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_xigua_movie/pages/home/home_body.dart';
-import 'package:flutter_xigua_movie/pages/home/home_othoer_body.dart';
+import 'package:flutter_xigua_movie/pages/home/home_other_body.dart';
 import 'package:flutter_xigua_movie/pages/home/home_title_view.dart';
 
 class HomePage extends StatefulWidget {
