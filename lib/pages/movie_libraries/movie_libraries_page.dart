@@ -6,9 +6,13 @@ class MovieLibrariesPage extends StatefulWidget {
   _MovieLibrariesPageState createState() => _MovieLibrariesPageState();
 }
 
-class _MovieLibrariesPageState extends State<MovieLibrariesPage> {
+class _MovieLibrariesPageState extends State<MovieLibrariesPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('片库'),

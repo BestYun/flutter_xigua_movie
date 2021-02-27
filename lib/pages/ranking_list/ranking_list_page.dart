@@ -6,9 +6,13 @@ class RankingListPage extends StatefulWidget {
   _RankingListPageState createState() => _RankingListPageState();
 }
 
-class _RankingListPageState extends State<RankingListPage> {
+class _RankingListPageState extends State<RankingListPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('排行榜'),

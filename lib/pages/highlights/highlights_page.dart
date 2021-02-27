@@ -6,9 +6,14 @@ class HighlightsPage extends StatefulWidget {
   _HighlightsPageState createState() => _HighlightsPageState();
 }
 
-class _HighlightsPageState extends State<HighlightsPage> {
+class _HighlightsPageState extends State<HighlightsPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    print('精彩片段build');
     return Scaffold(
       appBar: AppBar(
         title: Text('精彩片段'),
