@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_xigua_movie/pages/home/home_body_banner.dart';
+import 'package:flutter_xigua_movie/pages/home/home_body_item.dart';
 import 'package:flutter_xigua_movie/pages/home/home_today_recommend.dart';
 
 class HomeBody extends StatefulWidget {
@@ -23,15 +24,14 @@ class _HomeBodyState extends State<HomeBody>
       slivers: [
         SliverToBoxAdapter(child: HomeBodyBannerWidget()),
         SliverToBoxAdapter(child: HomeTodayRecommend()),
-
-        // SliverList(
-        //   delegate: SliverChildBuilderDelegate(
-        //     (c, index) {
-        //       return
-        //     },
-        //     childCount: 1,
-        //   ),
-        // ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (c, index) {
+              return HomeBodyItem();
+            },
+            childCount: 10,
+          ),
+        ),
       ],
     );
   }

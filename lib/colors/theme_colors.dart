@@ -14,5 +14,6 @@ class ThemeColors {
   ///主要颜色
   static final textPrimaryColor =
       const Color.fromARGB(255, 200, 155, 70); //(255, 29, 32, 41);
-
+  ///图片默认背景色
+  static final imageBgColor = const Color.fromARGB(255, 35, 37, 49);
 }
