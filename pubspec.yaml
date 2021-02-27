@@ -31,6 +31,7 @@ dependencies:
   logging: ^0.11.4 # 日志打印库
   cached_network_image: ^2.5.0
   flutter_screenutil: 4.0.3+2 #屏幕适配
+  flutter_swiper:  # banner轮播图
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

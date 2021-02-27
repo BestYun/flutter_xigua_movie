@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ThemeColors {
   ///标题栏颜色
-  static final appBarColor =
-      const Color.fromARGB(255, 25, 28, 38); //(255, 30, 30, 31);
+  static final appBarColor = const Color.fromARGB(255, 30, 30, 31);
+
   ///背景色
   static final bgColor =
       const Color.fromARGB(255, 20, 21, 25); //(255, 26, 27, 32);
