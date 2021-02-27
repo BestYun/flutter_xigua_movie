@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_xigua_movie/pages/home/home_body_banner.dart';
 
 class HomeBody extends StatefulWidget {
   final ScrollController scrollController;
@@ -18,18 +19,16 @@ class _HomeBodyState extends State<HomeBody>
     super.build(context);
     return CustomScrollView(
       controller: widget.scrollController,
-      slivers: List.generate(
-        30,
-        (index) => SliverToBoxAdapter(
-          child: Container(
-            height: 200,
-            color: index % 2 == 0 ? Colors.red : Colors.orange,
-            child: Center(
-              child: Text('$index'),
-            ),
+      slivers: [
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (c, index) {
+              return HomeBodyBannerWidget();
+            },
+            childCount: 1,
           ),
         ),
-      ),
+      ],
     );
   }
 }

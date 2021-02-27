@@ -93,7 +93,6 @@ class _HomeTitleViewState extends State<HomeTitleView> {
   Widget build(BuildContext context) {
     // 判断齐刘海
 
-    print((appBarBackgroundColorAlpha * 255).toInt());
     Color appBarBgColor = ThemeColors.appBarColor
         .withAlpha((appBarBackgroundColorAlpha * 255).toInt());
     Color textColor = Colors.white;
