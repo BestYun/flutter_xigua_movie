@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_xigua_movie/api/api.dart';
 import 'package:flutter_xigua_movie/colors/theme_colors.dart';
-import 'package:flutter_xigua_movie/main_tabbar.dart';
 import 'package:flutter_xigua_movie/pages/404_page.dart';
 import 'package:get/route_manager.dart';
 

@@ -11,6 +11,5 @@ class NotFoundPage extends StatelessWidget {
         child: Text('404 not found'),
       ),
     );
-    ;
   }
 }
