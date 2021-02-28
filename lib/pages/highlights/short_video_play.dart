@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_xigua_movie/colors/theme_colors.dart';
 import 'package:flutter_xigua_movie/pages/highlights/play_seek_state.dart';
 import 'package:flutter_xigua_movie/utils/log_util.dart';
 import 'package:flutter_xigua_movie/widgets/custom_ui.dart';
@@ -29,6 +31,9 @@ class _ShortVideoPlayState extends State<ShortVideoPlay> {
     Get.put(PlaySeekState(), tag: widget.videoUrl);
 
     player = FijkPlayer();
+
+    ///设置log
+    FijkLog.setLevel(FijkLogLevel.Error);
     player.addListener(playerValueChanged);
 
     _currentPosSubs = player.onCurrentPosUpdate.listen((v) {
@@ -45,7 +50,6 @@ class _ShortVideoPlayState extends State<ShortVideoPlay> {
 
   @override
   Widget build(BuildContext context) {
-    // LogUtil.log('build');
     return VisibilityDetector(
       key: Key(widget.videoUrl),
       onVisibilityChanged: (VisibilityInfo info) async {
@@ -63,43 +67,105 @@ class _ShortVideoPlayState extends State<ShortVideoPlay> {
           //切换tabbar或者进入后台,先暂停
           player?.pause();
         }
-
-        LogUtil.log(info);
       },
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: FijkView(
-                player: player,
-                color: Colors.black,
-                fit: FijkFit.contain,
-                panelBuilder: (FijkPlayer _player, FijkData data,
-                    BuildContext context, Size viewSize, Rect texturePos) {
-                  return CustomFijkPanel(
-                    player: _player,
-                    buildContext: context,
-                    viewSize: viewSize,
-                    texturePos: texturePos,
+      child: Stack(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: FijkView(
+                  player: player,
+                  color: Colors.black,
+                  fit: FijkFit.contain,
+                  panelBuilder: (FijkPlayer _player, FijkData data,
+                      BuildContext context, Size viewSize, Rect texturePos) {
+                    return CustomFijkPanel(
+                      player: _player,
+                      buildContext: context,
+                      viewSize: viewSize,
+                      texturePos: texturePos,
+                    );
+                  },
+                ),
+              ),
+              GetBuilder<PlaySeekState>(
+                tag: widget.videoUrl,
+                builder: (c) {
+                  return LinearProgressIndicator(
+                    minHeight: 0.5,
+                    value: c.seekPos,
+                    backgroundColor: Colors.white24,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   );
                 },
+              )
+            ],
+          ),
+          Positioned(
+            bottom: 1,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(30.w),
+              // height: 40,
+              // color: Colors.blue,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '影视名称',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30.sp,
+                          ),
+                        ),
+                        Text(
+                          '影视描述呀呀呀呀',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 22.sp,
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: ThemeColors.textPrimaryColor,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    // height: 40,
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    child: Center(
+                      child: Text(
+                        '观看完整版本',
+                        style: TextStyle(
+                            fontSize: 20.sp,
+                            color: ThemeColors.textPrimaryColor),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            GetBuilder<PlaySeekState>(
-              tag: widget.videoUrl,
-              builder: (c) {
-                return LinearProgressIndicator(
-                  minHeight: 0.5,
-                  value: c.seekPos,
-                  backgroundColor: Colors.white24,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                );
-              },
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -123,10 +189,10 @@ class _ShortVideoPlayState extends State<ShortVideoPlay> {
     );
 
     ///屏幕常亮
-    await player.setOption(FijkOption.hostCategory, "request-screen-on", 1);
+    player.setOption(FijkOption.hostCategory, "request-screen-on", 1);
 
     ///截屏
-    await player.setOption(FijkOption.hostCategory, "enable-snapshot", 1);
+    // await player.setOption(FijkOption.hostCategory, "enable-snapshot", 1);
     player.setLoop(0);
   }
 
@@ -134,8 +200,9 @@ class _ShortVideoPlayState extends State<ShortVideoPlay> {
   playerValueChanged() {
     FijkValue value = player.value;
     _allTime = dura2double(player.value.duration);
-
-    LogUtil.log(value);
+    if (value.videoRenderStart) {
+      LogUtil.log('开始播放');
+    }
   }
 
   startPlay() {

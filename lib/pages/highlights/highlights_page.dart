@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_xigua_movie/pages/highlights/play_seek_state.dart';
 import 'package:flutter_xigua_movie/pages/highlights/short_video_play.dart';
 import 'package:flutter_xigua_movie/utils/log_util.dart';
-import 'package:get/get.dart';
 
 ///精彩片段,短视频形式,截取电影最精彩的一段,吸引用户,点击看电影
 class HighlightsPage extends StatefulWidget {
