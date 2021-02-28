@@ -14,7 +14,7 @@ class MainTabbar extends StatefulWidget {
 class _MainTabbarState extends State<MainTabbar> {
   final List<String> titles = [
     '首页',
-    '精彩片刻',
+    '精彩片段',
     '排行榜',
     '片库',
     '我的',

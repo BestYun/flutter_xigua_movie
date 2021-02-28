@@ -23,6 +23,7 @@ class _ShortVideoPlayState extends State<ShortVideoPlay> {
 
   ///视频总时间
   double _allTime = 0;
+  bool showLoading = true;
 
   @override
   void initState() {
@@ -90,80 +91,34 @@ class _ShortVideoPlayState extends State<ShortVideoPlay> {
                   },
                 ),
               ),
-              GetBuilder<PlaySeekState>(
-                tag: widget.videoUrl,
-                builder: (c) {
-                  return LinearProgressIndicator(
-                    minHeight: 0.5,
-                    value: c.seekPos,
-                    backgroundColor: Colors.white24,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  );
-                },
-              )
+              showLoading
+                  ? LinearProgressIndicator(
+                      minHeight: 1,
+                      backgroundColor: ThemeColors.textPrimaryColor,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    )
+                  :
+
+                  ///进度条
+                  GetBuilder<PlaySeekState>(
+                      tag: widget.videoUrl,
+                      builder: (c) {
+                        return LinearProgressIndicator(
+                          minHeight: 0.5,
+                          value: c.seekPos,
+                          backgroundColor: Colors.white24,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        );
+                      },
+                    )
             ],
           ),
           Positioned(
             bottom: 1,
             left: 0,
             right: 0,
-            child: Container(
-              padding: EdgeInsets.all(30.w),
-              // height: 40,
-              // color: Colors.blue,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          '影视名称',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30.sp,
-                          ),
-                        ),
-                        Text(
-                          '影视描述呀呀呀呀',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 22.sp,
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: ThemeColors.textPrimaryColor,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    // height: 40,
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    child: Center(
-                      child: Text(
-                        '观看完整版本',
-                        style: TextStyle(
-                            fontSize: 20.sp,
-                            color: ThemeColors.textPrimaryColor),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: _VideoInfo(),
           ),
         ],
       ),
@@ -202,6 +157,9 @@ class _ShortVideoPlayState extends State<ShortVideoPlay> {
     _allTime = dura2double(player.value.duration);
     if (value.videoRenderStart) {
       LogUtil.log('开始播放');
+      setState(() {
+        showLoading = false;
+      });
     }
   }
 
@@ -224,5 +182,69 @@ class _ShortVideoPlayState extends State<ShortVideoPlay> {
     ///删掉状态
     Get.delete<PlaySeekState>(tag: widget.videoUrl);
     super.dispose();
+  }
+}
+
+class _VideoInfo extends StatelessWidget {
+  const _VideoInfo({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(30.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  '影视名称',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30.sp,
+                  ),
+                ),
+                Text(
+                  '影视描述呀呀呀呀',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 22.sp,
+                    color: Colors.white70,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 10),
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1,
+                color: ThemeColors.textPrimaryColor,
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            // height: 40,
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            child: Center(
+              child: Text(
+                '观看完整版本',
+                style: TextStyle(
+                    fontSize: 20.sp, color: ThemeColors.textPrimaryColor),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
