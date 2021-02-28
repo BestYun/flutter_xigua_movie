@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
-  final List<String> tabs = ["精选", "动作", "喜剧", "科幻", '爱情', '嫌疑', '纪录片'];
+  final List<String> tabs = ["精选", "动作", '动漫', "喜剧", "科幻", '爱情', '嫌疑', '纪录片'];
   List<int> classIDs;
   TabController _tabController;
   ScrollController scrollController;

@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_xigua_movie/api/api.dart';
 import 'package:flutter_xigua_movie/colors/theme_colors.dart';
 import 'package:flutter_xigua_movie/pages/404_page.dart';
+import 'package:flutter_xigua_movie/utils/log_util.dart';
 import 'package:get/route_manager.dart';
 
 void main() {
+  initLogging();
   runApp(MyApp());
 }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_xigua_movie/colors/theme_colors.dart';
 import 'package:flutter_xigua_movie/pages/home/home_video_info_item.dart';
 import 'package:flutter_xigua_movie/utils/assets_image_name_utils.dart';
 import 'package:get/get.dart';
