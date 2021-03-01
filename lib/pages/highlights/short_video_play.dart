@@ -62,7 +62,6 @@ class _ShortVideoPlayState extends State<ShortVideoPlay> {
             player.start();
           } else {
             startPlay();
-            // Get.find<PlaySeekState>().updateState(0);
           }
         } else if (visiblePercentage == 0) {
           //切换tabbar或者进入后台,先暂停
