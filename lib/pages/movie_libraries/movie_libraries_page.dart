@@ -18,7 +18,7 @@ class _MovieLibrariesPageState extends State<MovieLibrariesPage>
   @override
   bool get wantKeepAlive => true;
 
-  final categoryData = [
+  final List<List<CategoryItemModel>> categoryData = [
     [
       CategoryItemModel(
         id: 0,
@@ -121,6 +121,7 @@ class _MovieLibrariesPageState extends State<MovieLibrariesPage>
   }
 
   initCategory() {
+    ///默认初始化各个分类第一个选项
     CategotySelectedController c = Get.find<CategotySelectedController>();
     Map<String, CategoryItemModel> map = Map<String, CategoryItemModel>();
     for (int i = 0; i < categoryData.length; i++) {
@@ -139,12 +140,14 @@ class _MovieLibrariesPageState extends State<MovieLibrariesPage>
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-              child: Container(
-            child: CategoryWidget(
-              data: categoryData,
+            child: Container(
+              child: CategoryWidget(
+                data: categoryData,
+              ),
+              margin: EdgeInsets.only(
+                  left: 30.w, top: 30.w, right: 30.w, bottom: 20.w),
             ),
-            margin: EdgeInsets.all(30.w),
-          )),
+          ),
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 30.w),
             sliver: SliverGrid(
