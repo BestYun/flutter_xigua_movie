@@ -155,9 +155,9 @@ class _MovieLibrariesPageState extends State<MovieLibrariesPage>
   initCategory() {
     ///默认初始化各个分类第一个选项
     CategotySelectedController c = Get.find<CategotySelectedController>();
-    Map<String, CategoryItemModel> map = Map<String, CategoryItemModel>();
+    Map<int, CategoryItemModel> map = Map<int, CategoryItemModel>();
     for (int i = 0; i < categoryData.length; i++) {
-      map[i.toString()] = categoryData[i].first;
+      map[i] = categoryData[i].first;
     }
     c.setupData(map);
   }
@@ -184,6 +184,9 @@ class _MovieLibrariesPageState extends State<MovieLibrariesPage>
                     key: key,
                     child: CategoryWidget(
                       data: categoryData,
+                      itemOnClick: () {
+                        LogUtil.log('重新请求 = ');
+                      },
                     ),
                     margin: EdgeInsets.only(
                         left: 30.w, top: 30.w, right: 30.w, bottom: 20.w),
@@ -229,6 +232,9 @@ class _MovieLibrariesPageState extends State<MovieLibrariesPage>
                         color: ThemeColors.bgColor,
                         child: CategoryWidget(
                           data: categoryData,
+                          itemOnClick: () {
+                            scrollController.jumpTo(0);
+                          },
                         ),
                         padding: EdgeInsets.only(
                             left: 30.w, top: 30.w, right: 30.w, bottom: 20.w),

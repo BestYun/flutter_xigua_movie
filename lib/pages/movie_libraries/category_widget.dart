@@ -9,7 +9,11 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 ///分类信息
 class CategoryWidget extends StatelessWidget {
   final List<List<CategoryItemModel>> data;
-  CategoryWidget({@required this.data});
+
+  ///
+  final Function() itemOnClick;
+
+  CategoryWidget({@required this.data, this.itemOnClick});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,13 +33,15 @@ class CategoryWidget extends StatelessWidget {
                     itemBuilder: (bc, index) {
                       List<CategoryItemModel> items = data[item];
                       CategoryItemModel model = items[index];
-                      String key = item.toString();
+                      int key = item;
                       CategoryItemModel selectedModel = c.selectedMap[key];
 
                       return GestureDetector(
                         onTap: () {
                           //
                           c.updateSelected(key, model);
+
+                          itemOnClick();
                         },
                         child: _TextItem(
                           isSelected: selectedModel.id == model.id,

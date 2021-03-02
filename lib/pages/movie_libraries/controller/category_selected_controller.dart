@@ -4,14 +4,14 @@ import 'package:get/get.dart';
 ///记录选中分类
 class CategotySelectedController extends GetxController {
   //
-  Map<String, CategoryItemModel> _map = Map<String, CategoryItemModel>();
-  Map<String, CategoryItemModel> get selectedMap => _map;
+  Map<int, CategoryItemModel> _map = Map<int, CategoryItemModel>();
+  Map<int, CategoryItemModel> get selectedMap => _map;
 
-  setupData(Map<String, CategoryItemModel> map) {
+  setupData(Map<int, CategoryItemModel> map) {
     _map = map;
   }
 
-  updateSelected(String key, CategoryItemModel model) {
+  updateSelected(int key, CategoryItemModel model) {
     _map[key] = model;
     update();
   }
