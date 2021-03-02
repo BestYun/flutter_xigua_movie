@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_xigua_movie/colors/theme_colors.dart';
 import 'package:flutter_xigua_movie/model/category_item_model.dart';
-import 'package:flutter_xigua_movie/pages/movie_libraries/category_selected_controller.dart';
+import 'package:flutter_xigua_movie/pages/movie_libraries/controller/category_selected_controller.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
+///分类信息
 class CategoryWidget extends StatelessWidget {
   final List<List<CategoryItemModel>> data;
   CategoryWidget({@required this.data});

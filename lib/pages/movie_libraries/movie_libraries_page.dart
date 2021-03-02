@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_xigua_movie/colors/theme_colors.dart';
 import 'package:flutter_xigua_movie/model/category_item_model.dart';
-import 'package:flutter_xigua_movie/pages/movie_libraries/category_selected_controller.dart';
+import 'package:flutter_xigua_movie/pages/movie_libraries/controller/category_selected_controller.dart';
+import 'package:flutter_xigua_movie/pages/movie_libraries/controller/category_show_top_title_controller.dart';
+import 'package:flutter_xigua_movie/pages/movie_libraries/category_top_selected_title.dart';
 import 'package:flutter_xigua_movie/pages/movie_libraries/category_widget.dart';
+import 'package:flutter_xigua_movie/pages/movie_libraries/controller/show_top_category_controller.dart';
+import 'package:flutter_xigua_movie/utils/log_util.dart';
 import 'package:get/get.dart';
 
 ///片库,包括搜索
@@ -17,7 +21,9 @@ class _MovieLibrariesPageState extends State<MovieLibrariesPage>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-
+  ScrollController scrollController = ScrollController();
+  //定义一个key
+  GlobalKey key = GlobalKey();
   final List<List<CategoryItemModel>> categoryData = [
     [
       CategoryItemModel(
@@ -116,7 +122,33 @@ class _MovieLibrariesPageState extends State<MovieLibrariesPage>
   @override
   void initState() {
     Get.put(CategotySelectedController());
+    Get.put(CategoryShowTopTitleController());
+    Get.put(ShowTopCategoryController());
+
     initCategory();
+
+    scrollController.addListener(() {
+      RenderBox renderBox = key.currentContext.findRenderObject();
+      //如果顶部再次显示分类,一滚动就隐藏
+      var topCategorController = Get.find<ShowTopCategoryController>();
+      if (topCategorController.isShow) {
+        topCategorController.updateShowState(false);
+      }
+
+      if (scrollController.offset >= renderBox.size.height) {
+        //
+        var c = Get.find<CategoryShowTopTitleController>();
+        if (!c.isShow) {
+          c.updateShowState(true);
+        }
+      }
+      if (scrollController.offset < renderBox.size.height - 36) {
+        var c = Get.find<CategoryShowTopTitleController>();
+        if (c.isShow) {
+          c.updateShowState(false);
+        }
+      }
+    });
     super.initState();
   }
 
@@ -137,33 +169,74 @@ class _MovieLibrariesPageState extends State<MovieLibrariesPage>
       appBar: AppBar(
         title: Text('片库'),
       ),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-              child: CategoryWidget(
-                data: categoryData,
-              ),
-              margin: EdgeInsets.only(
-                  left: 30.w, top: 30.w, right: 30.w, bottom: 20.w),
+      body: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 0,
+            child: CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Container(
+                    key: key,
+                    child: CategoryWidget(
+                      data: categoryData,
+                    ),
+                    margin: EdgeInsets.only(
+                        left: 30.w, top: 30.w, right: 30.w, bottom: 20.w),
+                  ),
+                ),
+                SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: 30.w),
+                  sliver: SliverGrid(
+                    delegate: SliverChildBuilderDelegate(
+                      (c, index) {
+                        return _Item();
+                      },
+                    ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 0.7,
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15,
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 30.w),
-            sliver: SliverGrid(
-              delegate: SliverChildBuilderDelegate(
-                (c, index) {
-                  return _Item();
-                },
-              ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 0.7,
-                crossAxisCount: 3,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-              ),
+          Positioned(
+            left: 0,
+            top: 0,
+            right: 0,
+            child: GetBuilder<CategoryShowTopTitleController>(
+              builder: (c) {
+                return c.isShow ? CategoryTopSelectedTitle() : SizedBox();
+              },
             ),
-          )
+          ),
+          Positioned(
+            left: 0,
+            top: 0,
+            right: 0,
+            child: GetBuilder<ShowTopCategoryController>(
+              builder: (c) {
+                return c.isShow
+                    ? Container(
+                        color: ThemeColors.bgColor,
+                        child: CategoryWidget(
+                          data: categoryData,
+                        ),
+                        padding: EdgeInsets.only(
+                            left: 30.w, top: 30.w, right: 30.w, bottom: 20.w),
+                      )
+                    : SizedBox();
+              },
+            ),
+          ),
         ],
       ),
     );
